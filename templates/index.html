@@ -76,8 +76,9 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-8  mb-5 mb-lg-0">
+                  {% for post in posts %}
 				<article class="row mb-5">
-                    {% for post in posts %}
+
 					<div class="col-md-4 mb-4 mb-md-0">
 						<div class="post-slider slider-sm">
 
@@ -90,19 +91,23 @@
 					<div class="col-md-8">
 						<h3 class="h5"><a class="post-title" href="post-detail.html">{{post.title}}</a></h3>
 						<ul class="list-inline post-meta mb-2">
-							<li class="list-inline-item"><i class="ti-user mr-2"></i><a href="author.html">John Doe</a>
+							<li class="list-inline-item"><i class="ti-user mr-2"></i><a href="author.html">Author:  {{post.author}}</a>
 							</li>
-							<li class="list-inline-item">Date : March 15, 2020</li>
+							<li class="list-inline-item">Date : {{post.date}}</li>
 							<li class="list-inline-item">Categories : <a href="#!" class="ml-1">Photography </a>
 							</li>
-							<li class="list-inline-item">Tags : <a href="#!" class="ml-1">Photo </a> ,<a href="#!" class="ml-1">Image </a>
+
+							<li class="list-inline-item">Tags :
+                                {% for tag in post.tags.all %}
+                                <a href="#!" class="ml-1">{{tag.name}} </a> ,
+                                {% endfor %}
 							</li>
 						</ul>
-						<p>Heading example Here is example of hedings. You can use this heading by following markdownify rules. …</p> <a href="post-detail.html" class="btn btn-outline-primary">Continue Reading</a>
+						<p class="text-truncate" > {{post.body}}</p> <a href="post-detail.html" class="btn btn-outline-primary">Continue Reading</a>
 					</div>
-                    {% endfor %}
-				</article>
 
+				</article>
+ {% endfor %}
             <!-- Pagination -->
             <nav aria-label="Page navigation example">
                <ul class="pagination">
@@ -182,42 +187,25 @@
    <div class="widget">
       <h5 class="widget-title"><span>Latest Article</span></h5>
       <!-- post-item -->
-      <ul class="list-unstyled widget-list">
-         <li class="media widget-post align-items-center">
-            <a href="post-detail.html">
-               <img loading="lazy" class="mr-3" src="images/post/post-6.jpg">
-            </a>
-            <div class="media-body">
-               <h5 class="h6 mb-0"><a href="post-detail.html">Elements That You Can Use To Create A New Post On
-                     This Template.</a></h5>
-               <small>March 15, 2020</small>
-            </div>
-         </li>
-      </ul>
-      <ul class="list-unstyled widget-list">
-         <li class="media widget-post align-items-center">
-            <a href="post-detail.html">
-               <img loading="lazy" class="mr-3" src="images/post/post-1.jpg">
-            </a>
-            <div class="media-body">
-               <h5 class="h6 mb-0"><a href="post-detail.html">Cheerful Loving Couple Bakers Drinking Coffee</a>
-               </h5>
-               <small>March 14, 2020</small>
-            </div>
-         </li>
-      </ul>
-      <ul class="list-unstyled widget-list">
-         <li class="media widget-post align-items-center">
-            <a href="post-detail.html">
-               <img loading="lazy" class="mr-3" src="images/post/post-2.jpg">
-            </a>
-            <div class="media-body">
-               <h5 class="h6 mb-0"><a href="post-detail.html">Cheerful Loving Couple Bakers Drinking Coffee</a>
-               </h5>
-               <small>March 14, 2020</small>
-            </div>
-         </li>
-      </ul>
+    <ul class="list-unstyled widget-list">
+    {% for post in posts|slice:":3" %}
+    <li class="media widget-post align-items-center">
+        <a href="post-detail.html">
+            {% if post.images.all %}
+            {% with post.images.all|first as first_image %}
+            <img loading="lazy" src="{{ first_image.image.url }}" alt="{{ post.title }}" class="mr-3">
+            {% endwith %}
+            {% endif %}
+
+        </a>
+        <div class="media-body">
+            <h5 class="h6 mb-0"><a href="post-detail.html">{{ post.title }}</a></h5>
+            <small>{{ post.date }}</small>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+
    </div>
    </aside>
    <!-- End Sidebar -->

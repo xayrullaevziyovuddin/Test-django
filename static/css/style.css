@@ -5,6 +5,21 @@ body {
   color: #696c6d;
   font-size: 14px;
 }
+.card-body {
+    overflow: hidden; /* Прячем переполненный текст */
+    text-overflow: ellipsis; /* Добавляем многоточие */
+    white-space: nowrap; /* Не переносим текст на новую строку */
+    max-height: 100px; /* Ограничиваем высоту контейнера, чтобы текст не выходил за пределы */
+    display: block; /* Чтобы блоки занимали всю ширину */
+}
+.card-body {
+    max-height: 150px; /* Максимальная высота блока с текстом */
+    overflow: hidden; /* Прячем переполненный текст */
+    text-overflow: ellipsis; /* Добавляем многоточие */
+    display: -webkit-box; /* Для многострочного текста */
+    -webkit-line-clamp: 5; /* Ограничиваем количество строк */
+    -webkit-box-orient: vertical; /* Вертикальное направление */
+}
 /* Pagination container */
 .pagination {
   display: flex;
