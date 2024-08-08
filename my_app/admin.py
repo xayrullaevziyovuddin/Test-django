@@ -1,7 +1,12 @@
-
 from django.contrib import admin
-from .models import Post, Author, Tag
+from .models import Post, Image
 
-admin.site.register(Post)
-admin.site.register(Author)
-admin.site.register(Tag)
+class ImageInline(admin.TabularInline):
+    model = Image
+    extra = 3  # Количество дополнительных полей для загрузки изображений
+
+class PostAdmin(admin.ModelAdmin):
+    list_display = ('title', 'author', 'date')
+    inlines = [ImageInline]
+
+admin.site.register(Post, PostAdmin)
